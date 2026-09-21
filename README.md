@@ -1,23 +1,38 @@
-# Untied per-dimension gated fusion of ECAPA2 audio and EGG embeddings
+# Condition-Adaptive Fusion of Electroglottography and Audio for Speaker Verification Under Extreme Noise
 
-> **Before publishing, fill in:** paper title, abstract, author list, venue and
-> BibTeX below. They are deliberately left blank rather than guessed — nothing
-> in the source project recorded them.
+**Authors:** Manuel Deus¹ ², Simon Dahl Jepsen², Jesper Rindom Jensen²
+¹Department of Physics, Faculdade de Ciências da Universidade de Lisboa, Lisbon, Portugal
+²Department of Electronic Systems, Aalborg University, Aalborg, Denmark
 
-**Paper:** _TODO — title_
-**Authors:** _TODO_
-**Venue:** _TODO (ICASSP submission)_
+**Venue:** Submitted to ICASSP 2027 — not yet accepted. Update the BibTeX entry
+below once a decision lands (accepted → drop `note`, add proceedings
+pages/DOI).
 
 ## Abstract
 
-_TODO — paste the final abstract._
+Speaker verification degrades under acoustic noise, the setting where it's
+often most needed. Electroglottography (EGG), a skin-contact measure of
+vocal-fold contact, is immune to airborne noise and complements audio as
+conditions worsen, while acoustic-only verification collapses. We fuse a
+frozen ECAPA2 audio encoder with a trained EGG encoder through an untied,
+no-trunk, per-dimension gate whose weights are a direct, inspectable readout
+of the joint embedding. On PTDB-TUG (20 speakers, 26 conditions), the gate
+reaches near-parity with an unconstrained MLP system at 1/3 fewer parameters.
+Its value is interpretability: three converging controls show the adaptive
+weighting is genuine — content-driven, identity-grounded, and not a norm
+artifact. We present this as a closed-set proof of concept.
+
+**Index Terms:** Speaker verification, electroglottography, multimodal
+fusion, noise robustness, interpretability
 
 ```bibtex
-@inproceedings{TODO,
-  title     = {TODO},
-  author    = {TODO},
-  booktitle = {TODO},
-  year      = {2026}
+@inproceedings{deus2027eggfusion,
+  author    = {Deus, Manuel and Jepsen, Simon Dahl and Jensen, Jesper Rindom},
+  title     = {Condition-Adaptive Fusion of Electroglottography and Audio for
+               Speaker Verification Under Extreme Noise},
+  booktitle = {Proc. IEEE Int. Conf. Acoust., Speech, Signal Process. (ICASSP)},
+  year      = {2027},
+  note      = {Submitted, under review}
 }
 ```
 
