@@ -1,9 +1,9 @@
 # --- data: licensed, not redistributable (see data/README.md) --------------
-data/
-!data/README.md
+/data/
+!/data/README.md
 
 # --- regenerated artifacts: rebuild with src/data/pairs.py + src/train.py ---
-artifacts/
+/artifacts/
 *.npz
 *.npy
 *.pth
@@ -11,7 +11,7 @@ artifacts/
 *.ckpt
 
 # --- generated figures (regenerate with src/figures/*) ----------------------
-figures/
+/figures/
 
 # --- python -----------------------------------------------------------------
 __pycache__/
