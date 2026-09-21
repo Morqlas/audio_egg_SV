@@ -1,0 +1,23 @@
+EFFECTIVE AUDIO SHARE -- DESCRIPTIVE SUMMARY (test set, primary untied vector gate)
+==================================================================================
+Aggregation: mean +/- std across folds, per (noise_type, SNR).
+
+NOTE: no significance test is reported for the effective share. It is a
+confounded quantity (gate x norm) and is resolved by the gate-vs-norm
+decomposition. The raw-gate SNR trend is tested separately (n=5 across
+noise types, p = 0.031); see the decomposition/gate-tracks-SNR outputs.
+
+Per-noise aggregate net share drop (+10 dB -> -10 dB), mean across folds:
+  cafeteria  0.629 -> 0.436   net +0.193
+  metro      0.630 -> 0.478   net +0.153
+  office     0.633 -> 0.571   net +0.062
+  park       0.634 -> 0.506   net +0.128
+  traffic    0.635 -> 0.556   net +0.079
+
+Drop ranking (largest first; expect cafeteria/metro > ... > office):
+  cafeteria(+0.193), metro(+0.153), park(+0.128), traffic(+0.079), office(+0.062)
+
+Supporting finding -- audio embedding norm shrinks under noise:
+  clean audio norm = 57.3  ->  cafeteria -10 dB = 46.9
+  (part of the down-weighting is emergent in the encoder, before the gate;
+   the decomposition quantifies how much of the share drop this accounts for.)

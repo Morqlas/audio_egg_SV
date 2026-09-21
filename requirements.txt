@@ -1,0 +1,24 @@
+# Pinned from the environment the paper results were produced in
+# (Project/venv, Python 3.12, Windows + CUDA 13.0).
+#
+# torch/torchaudio are pinned to the CUDA 13.0 build. For a CPU-only or
+# different-CUDA install, drop the +cu130 local version and use the selector
+# at https://pytorch.org/get-started/locally/
+torch==2.10.0+cu130
+torchaudio==2.10.0
+
+numpy==2.4.2
+scipy==1.17.1
+pandas==3.0.1
+scikit-learn==1.8.0
+matplotlib==3.10.8
+tqdm==4.67.3
+PyYAML==6.0.3
+
+# audio I/O + loudness-normalised SNR mixing (src/data/noise_sim.py)
+soundfile==0.13.1
+pyloudnorm==0.2.0
+librosa==0.11.0
+
+# used by the ECAPA2 building blocks
+speechbrain==1.0.3

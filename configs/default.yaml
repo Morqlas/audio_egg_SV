@@ -1,0 +1,85 @@
+# Hyperparameters and protocol constants for the paper runs.
+#
+# This file DOCUMENTS the settings; the scripts take them as CLI flags and
+# carry these same values as their argparse defaults. Changing a value here
+# does not change a run -- pass the flag. Kept so the recipe is readable in
+# one place and diffable across experiments.
+
+split:
+  n_folds: 5
+  fold_seed: 42            # StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+  # Stratified by speaker over all utterances. Per fold: the held-out fifth is
+  # test; of the remaining 4/5, 1/8 becomes val (rng = default_rng(42 + fold)),
+  # the rest train. Closed-set: every speaker appears in all three splits.
+  val_fraction_of_remainder: 0.125
+  test_pair_seed: "fold_seed + 1000 + fold_idx"   # distinct from val, avoids pair overlap
+  val_pairs_per_category: 2000
+
+noise:
+  seed: 42
+  types:   [cafeteria, metro, office, park, traffic]
+  snr_db:  [10, 5, 0, -5, -10]
+  # 26 test conditions = clean + 5 noise types x 5 SNRs.
+  # Mixing is loudness-normalised (pyloudnorm, ITU-R BS.1770) rather than
+  # plain RMS; EGG/LAR is never noised.
+  mixing: loudness_normalised
+  sample_rate: 16000
+
+encoders:
+  audio:
+    name: ECAPA2
+    frozen: true
+    embedding_dim: 192
+    # standard speech framing
+    window_samples: 400      # 25 ms @ 16 kHz
+    hop_samples: 160         # 10 ms @ 16 kHz
+  egg:
+    name: EGGEncoder          # from-scratch, src/encoders/egg_cnn.py
+    frozen: true              # frozen when training fusion
+    embedding_dim: 192
+    input_channels: 2         # EGG + dEGG, each z-normalised
+    # finer framing than audio -- the "10_5" configuration
+    window_samples: 160       # 10 ms @ 16 kHz
+    hop_samples: 80           #  5 ms @ 16 kHz
+
+fusion:
+  audio_dim: 192
+  egg_dim: 192
+  hidden_dim: 384
+  output_dim: 192
+  dropout: 0.3
+  primary: no_trunk_vector_gate
+  ablations: [vector_gate, no_trunk_tied_vector_gate, no_trunk_scalar_gate]
+  baselines: [mlp, score_level_late_fusion]
+
+train:
+  batch_size: 64
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  epochs: 100
+  patience: 15
+  loss: AAMSoftmax
+  margin: 0.2
+  scale: 30.0
+  # Each step samples the audio condition uniformly from {clean} + 25 noisy.
+  # EGG is always clean.
+
+eval:
+  metrics: [sg_eer, sg_min_dcf, cg_far]
+  # Clean-enroll / noisy-test pairing for the 25 noisy conditions.
+  # SG = same-gender trials; CG-FAR = cross-gender false accept rate.
+
+controls:
+  decomposition:
+    # splits the +10 -> -10 dB effective-audio-share drop into gate- and
+    # norm-driven parts; reported gate-driven share 81-96%
+    aggregation_unit: fold
+  l2_retrain:
+    # retrain with the gate INPUT L2-normalised (fusion still uses raw embeds)
+    flag: "--gate_input_norm l2"
+  shuffled_egg:
+    # cross-speaker EGG permutation, applied in train AND val
+    flag: "--shuffle_egg"
+    test_cells: 10           # -10 and -5 dB x 5 noise types
+    alpha: 0.05
+    decision_rule: ">= 8 of 10 cells reject H0 (one-tailed paired t-test)"

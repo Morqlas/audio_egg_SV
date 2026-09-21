@@ -1,0 +1,21 @@
+GATE vs NORM DECOMPOSITION — effective audio share drop (+10 → −10 dB)
+==========================================================================
+Confound tested: is the effective-share decline driven by the learned
+gate, or merely by audio embedding-norm shrinkage under noise?
+
+  cafeteria  total +0.2174 | GATE +0.1752 ( 81%) | NORM +0.0480 ( 22%)
+  metro      total +0.1986 | GATE +0.1741 ( 88%) | NORM +0.0273 ( 14%)
+  office     total +0.1226 | GATE +0.1181 ( 96%) | NORM +0.0046 (  4%)
+  park       total +0.1698 | GATE +0.1376 ( 81%) | NORM +0.0342 ( 20%)
+  traffic    total +0.1372 | GATE +0.1308 ( 95%) | NORM +0.0065 (  5%)
+
+Raw gate g_audio (norm-INDEPENDENT) drop, ranked by severity:
+  cafeteria  0.2211 → 0.1130 (Δ +0.1081)
+  metro      0.2238 → 0.1159 (Δ +0.1078)
+  park       0.2279 → 0.1367 (Δ +0.0912)
+  traffic    0.2334 → 0.1438 (Δ +0.0896)
+  office     0.2279 → 0.1472 (Δ +0.0807)
+
+Reading: gate-driven % > 50 everywhere => the gate is the primary
+driver, not a passive norm artifact. Raw gate ordering by severity
+(norm-independent) confirms the gate responds to audio degradation.
